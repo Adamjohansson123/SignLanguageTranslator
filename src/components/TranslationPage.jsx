@@ -39,16 +39,9 @@ const TranslationPage = (props) => {
 	}
 
 	const renderTranslation = () => {
-		//const translation = translationInput.split('')
-		//setImageArray(translation)
-        let arr = []
-        translationInput.split('').map(e => {
-            let image = <img src = {require("../img/individial_signs/" + e + ".png")} />
-            arr.push(image);
-            console.log(e);
-        });
-        console.log(arr);
-        return arr;
+        
+		
+        setImageArray(translationInput.split('').map(e => `../img/${e}.png`))
 	}
 
 	return (
@@ -67,11 +60,10 @@ const TranslationPage = (props) => {
 			/>	
             
             <div>
-               {renderTranslation} 
+               {imageArray && imageArray.map((e,i) => <img src={e} alt="img" key={i}></img>)} 
             </div>
             
             
-            <img>{image}</img>
         
 			
 		</div>
