@@ -1,45 +1,46 @@
-import { useState } from 'react'
-import { withRouter } from "react-router";
-import { useHistory } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
+
 
 const StartUpPage = (props) => {
 
-    useEffect(() => {
-        if(localStorage.length > 0) {
-            props.history.push('/translation');
-        }
-    }, [])
+	useEffect(() => {
+		if(localStorage.length > 0) {
+			props.history.push('/translation');
+		}
+	}, [])
 
 	const [value, setValue] = useState('')
 
 	const onChange = (e) => {
 		setValue(e.target.value)
-		console.log(value);
 	}
 	const onClick = () => {
-		localStorage.setItem('name', value)
+		if(value.match(/^[a-zA-Z]{1,16}$/)) {
 
-		const data = { name: value };
+			localStorage.setItem('name', value)
 
-		fetch('http://localhost:3000/user', {
-			method: 'POST', 
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		})
-		.then(response => response.json())
-		.then(data => {
-			console.log('Success:', data);
-		})
-		.catch((error) => {
-			console.error('Error:', error);
-		});
-			console.log(props.history);
+			const data = { name: value };
 
-        props.history.push('/translation');
-    
+			fetch('http://localhost:5000/user', {
+				method: 'POST', 
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			})
+			.then(response => response.json())
+			.then(data => {
+				console.log('Success:', data);
+				props.history.push('/translation');
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+		}
+		else {
+			alert('invalid input - name must contain between 1-16 characters and only letters')
+		}
 	}
 	
 	return (
@@ -54,7 +55,7 @@ const StartUpPage = (props) => {
 				<button 
 					className="nameInputBtn"
 					onClick={onClick}
-					/>
+					>Log in</button>
 		</div>
 
 			

@@ -8,6 +8,7 @@ import {
 import StartPage from './components/StartUpPage'
 import TranslationPage from './components/TranslationPage'
 import ProfilePage from './components/ProfilePage'
+import './App.css'
 
 function App() {
   return (
