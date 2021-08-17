@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const TranslationPage = () => {
+const TranslationPage = ({activeUser}) => {
 
 	const history = useHistory()
-	const location = useLocation()
 
-	useEffect(() => {
-		if(!localStorage.name) {
+	/* useEffect(() => {
+		if(!activeUser) {
+			console.log('runs: ' + activeUser);
 			history.push('/');
 		}
-	}, [])
+	}, []) */
 
 	const [translationInput, setTranslationInput] = useState('')
 	const [imageArray, setImageArray] = useState(null)
@@ -24,7 +24,7 @@ const TranslationPage = () => {
 
 		localStorage.setItem('translation', translationInput)
 		
-		const data = { translation: translationInput, status: "active", FK_userId: location.state.data.id };
+		const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
 
 		fetch('http://localhost:5000/translation', {
 			method: 'POST', 
@@ -56,6 +56,7 @@ const TranslationPage = () => {
 			<div className="translationContainer">
 				<div className="translationInputContainer">
 					<div className="translationInputWrapper">
+						
 						<input 
 							id="translationInput"
 							placeholder="Text to translate"
@@ -67,7 +68,14 @@ const TranslationPage = () => {
 							onClick={onClick}
 						>Translate</button>	
 					</div>
-					
+
+					<div className="userProfile">
+						<div className="userProfileWrapper">
+							<h3 className="userProfileName">{activeUser.name}</h3>
+						</div>
+						<img width={40} height={40} src="../img/usericon/usericon.png" alt="user icon"/>
+					</div>
+
 				</div>
 				
 				<div className="translationResultContainer">
@@ -82,4 +90,11 @@ const TranslationPage = () => {
 		</div>
 	)
 }
-export default TranslationPage
+
+const mapStateToProps = (state) => {
+  return {
+    activeUser: state.user.activeUser
+  }
+}
+
+export default connect(mapStateToProps, null)(TranslationPage)

@@ -1,28 +1,29 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
+import { userToState } from '../redux/User/userSlice';
+import { connect } from 'react-redux';
 
-
-const StartUpPage = () => {
+const StartUpPage = (props) => {
 
 	const history = useHistory()
 
-	useEffect(() => {
-		if(localStorage.length > 0) {
+	/* useEffect(() => {
+		if(props.activeUser) {
 			history.push('/translation');
 		}
-	}, [])
+	}, []) */
 
-	const [value, setValue] = useState('')
+	const [username, setUsername] = useState('')
 
 	const onChange = (e) => {
-		setValue(e.target.value)
+		setUsername(e.target.value)
 	}
 	const onClick = () => {
-		if(value.match(/^[a-zA-Z]{1,16}$/)) {
+		if(username.match(/^[a-zA-Z]{1,16}$/)) {		// Check if username is correct format 
 
-			localStorage.setItem('name', value)
+			
 
-			const data = { name: value };
+			const data = { name: username };
 
 			fetch('http://localhost:5000/user', {
 				method: 'POST', 
@@ -34,7 +35,8 @@ const StartUpPage = () => {
 			.then(response => response.json())
 			.then(data => {
 				console.log('Success:', data);
-				history.push('/translation', {data: data});
+				props.userToState(data)								// Send to redux user state
+				history.push('/translation');
 			})
 			.catch((error) => {
 				console.error('Error:', error);
@@ -63,4 +65,17 @@ const StartUpPage = () => {
 			
 	)
 }
-export default StartUpPage
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    userToState: (args) => dispatch(userToState(args)),
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    activeUser: state.user.activeUser
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StartUpPage)
