@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 
 
-const StartUpPage = (props) => {
+const StartUpPage = () => {
+
+	const history = useHistory()
 
 	useEffect(() => {
 		if(localStorage.length > 0) {
-			props.history.push('/translation');
+			history.push('/translation');
 		}
 	}, [])
 
@@ -32,14 +34,14 @@ const StartUpPage = (props) => {
 			.then(response => response.json())
 			.then(data => {
 				console.log('Success:', data);
-				props.history.push('/translation');
+				history.push('/translation', {data: data});
 			})
 			.catch((error) => {
 				console.error('Error:', error);
 			});
 		}
 		else {
-			alert('invalid input - name must contain between 1-16 characters and only letters')
+			alert('Invalid input - name must contain between 1-16 characters and only letters')
 		}
 	}
 	
@@ -61,4 +63,4 @@ const StartUpPage = (props) => {
 			
 	)
 }
-export default withRouter(StartUpPage)
+export default StartUpPage
