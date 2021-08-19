@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userToState, fetchUserByName } from '../redux/User/userSlice';
+import { addNewTranslation } from '../redux/Translations/translationSlice';
 
-const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToState}) => {
+const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToState, addNewTranslation}) => {
 
 	const history = useHistory()
 
@@ -13,11 +14,10 @@ const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToS
 				history.push('/');
 			}
 			else if(!activeUser) {
-				console.log('runs');
-				if(!userByNameResult)
-				await fetchUserByName(localStorage.getItem('user')) 
 				if(userByNameResult)
-				await userToState(userByNameResult[0])
+					await userToState(userByNameResult[0])
+				else
+					await fetchUserByName(localStorage.getItem('user')) 
 			}
 		}
 		checkActiveUser()
@@ -35,23 +35,10 @@ const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToS
 		localStorage.setItem('translation', translationInput)
 		
 		const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
+		addNewTranslation(data)
 
-		fetch('http://localhost:5000/translation', {
-			method: 'POST', 
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		})
-		.then(response => response.json())
-		.then(data => {
-			console.log('Success:', data);
-		})
-		.catch((error) => {
-			console.error('Error:', error);
-		});	
 		
-		renderTranslation();
+		setImageArray(translationInput.toLowerCase().split('').map(e => `../img/${e}.png`))
 	}
 	else 
 		alert('String too long, max 40 characters')
@@ -60,9 +47,7 @@ const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToS
 		history.push('/profile')
 	}
 
-	const renderTranslation = () => {
-    setImageArray(translationInput.split('').map(e => `../img/${e}.png`))
-	}
+
 
 	return (
 		<div className="translationPageContainer">
@@ -114,6 +99,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		userToState: (args) => dispatch(userToState(args)),
 		fetchUserByName: (name) => dispatch(fetchUserByName(name)),
+		addNewTranslation: (translation) => dispatch(addNewTranslation(translation))
 	}
 }
 

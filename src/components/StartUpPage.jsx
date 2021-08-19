@@ -10,20 +10,15 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	useEffect(() => {
 		const checkActiveUser = async() => {
 			await	fetchAllUsers()
-		if(users.length > 0 ) {
-			if (localStorage.getItem('user')) {
-				
-				const user = checkUserExists(localStorage.getItem('user'))
-				userToState(user)
-				history.push('/translation');
-			}
-		}
+			
+				if (localStorage.getItem('user')) {
+					const user = checkUserExists(localStorage.getItem('user'))
+					userToState(user)
+					history.push('/translation');
+				}
+			
 		}
 		checkActiveUser()
-		
-			
-		
-		
 	}, [])
 
 	const [username, setUsername] = useState('')
@@ -33,7 +28,6 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	}
 	const onClick = () => {
 		const user = checkUserExists(username)
-		console.log(user);
 		if (user) {
 			if (username.match(/^[a-zA-Z]{1,16}$/)) {
 				localStorage.setItem("user", username)
@@ -58,7 +52,6 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 				})
 					.then(response => response.json())
 					.then(data => {
-						console.log('Success:', data);
 						userToState(data)								// Send to redux user state
 						localStorage.setItem('user', data.name)
 						history.push('/translation');
@@ -74,9 +67,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	}
 
 	const checkUserExists = (username) => {
-		console.log(users);
 		for (const key of users) {
-			console.log(key);
 			if (key.name === username) {
 				return key
 			}

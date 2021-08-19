@@ -20,7 +20,6 @@ const ProfilePage = (props) => {
 	} = props
 
 	const history = useHistory()
-	//const [translations, setTranslations] = useState(null)
 
 	useEffect(() => {
 		const checkActiveUser = async () => {
@@ -74,14 +73,16 @@ const ProfilePage = (props) => {
 				<thead>
 					<th>Last 10 translations</th>
 				</thead>
+				<ul>
 				{
 					translations && translations.map(t => {
 						if(t.status === 'active')
-							return <td>{t.translation}</td>
+							return <li>{t.translation}</li>
 						else 
 							return <div/>
 					})
 				}
+				</ul>
 			</table>
 			
 			<button
