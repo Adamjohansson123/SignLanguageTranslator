@@ -1,32 +1,47 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { userToState } from '../redux/User/userSlice';
+import { userToState, fetchUserByName } from '../redux/User/userSlice';
 import { fetchTranslationById, updateTranslation, fetchAllTranslations } from '../redux/Translations/translationSlice';
 import { connect } from 'react-redux';
+import { act } from 'react-dom/test-utils';
 
 const ProfilePage = (props) => {
 
 	const {
 		translations, 
 		userToState, 
+		userByNameResult,
 		activeUser, 
 		updateTranslation, 
 		fetchTranslationById, 
 		allTranslations,
-		fetchAllTranslations
+		fetchAllTranslations,
+		fetchUserByName
 	} = props
 
 	const history = useHistory()
 	//const [translations, setTranslations] = useState(null)
 
 	useEffect(() => {
-		if (!localStorage.getItem('user')) {
-			history.push('/');
+		const checkActiveUser = async () => {
+			if (!localStorage.getItem('user')) {
+				history.push('/');
+			}
+			else if(!activeUser) {
+				console.log('runs');
+				await fetchUserByName(localStorage.getItem('user')) 
+				
+				if(userByNameResult)
+				await userToState(userByNameResult[0])
+			}
+			if(activeUser) {
+				fetchTranslationById(activeUser.id)
+				fetchAllTranslations(activeUser.id)
+			}
 		}
+		checkActiveUser()
 		
-		fetchTranslationById(activeUser.id)
-		fetchAllTranslations(activeUser.id)
-	}, [])
+	}, [userByNameResult, activeUser])
 
 
     /**
@@ -80,6 +95,7 @@ const ProfilePage = (props) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		userToState: (args) => dispatch(userToState(args)),
+		fetchUserByName: (name) => dispatch(fetchUserByName(name)),
 		fetchTranslationById: (userId) => dispatch(fetchTranslationById(userId)),
 		fetchAllTranslations: (userId) => dispatch(fetchAllTranslations(userId)),
 		updateTranslation: (translation) => dispatch(updateTranslation(translation)),
@@ -90,6 +106,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const mapStateToProps = (state) => {
 	return {
 		activeUser: state.user.activeUser,
+		userByNameResult: state.user.userByNameResult,
 		translations: state.translations.translations,
 		allTranslations: state.translations.allTranslations,
 		loading: state.translations.loading,

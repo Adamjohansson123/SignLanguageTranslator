@@ -1,18 +1,27 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { userToState, fetchUserByName } from '../redux/User/userSlice';
 
-const TranslationPage = ({activeUser}) => {
+const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToState}) => {
 
 	const history = useHistory()
 
 	useEffect(() => {
-		if(!localStorage.getItem('user')) {
-	
-			history.push('/');
-
+		const checkActiveUser = async () => {
+			if (!localStorage.getItem('user')) {
+				history.push('/');
+			}
+			else if(!activeUser) {
+				console.log('runs');
+				if(!userByNameResult)
+				await fetchUserByName(localStorage.getItem('user')) 
+				if(userByNameResult)
+				await userToState(userByNameResult[0])
+			}
 		}
-	}, [])
+		checkActiveUser()
+	}, [userByNameResult])
 
 	const [translationInput, setTranslationInput] = useState('')
 	const [imageArray, setImageArray] = useState(null)
@@ -75,7 +84,7 @@ const TranslationPage = ({activeUser}) => {
 
 					<div className="userProfile" onClick={onClickProfile}>
 						<div className="userProfileWrapper">
-							<h3 className="userProfileName">{activeUser.name}</h3>
+							<h3 className="userProfileName">{activeUser && activeUser.name}</h3>
 						</div>
 						<img 
 							width={40} 
@@ -100,10 +109,19 @@ const TranslationPage = ({activeUser}) => {
 	)
 }
 
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+	return {
+		userToState: (args) => dispatch(userToState(args)),
+		fetchUserByName: (name) => dispatch(fetchUserByName(name)),
+	}
+}
+
 const mapStateToProps = (state) => {
   return {
-    activeUser: state.user.activeUser
+    activeUser: state.user.activeUser,
+		userByNameResult: state.user.userByNameResult
   }
 }
 
-export default connect(mapStateToProps, null)(TranslationPage)
+export default connect(mapStateToProps, mapDispatchToProps)(TranslationPage)

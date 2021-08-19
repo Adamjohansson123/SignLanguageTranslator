@@ -8,3 +8,12 @@ export const getAllUsers = () => {
 		},
 	})
 }
+
+export const getUserByName = (name) => {
+	return fetch(`${BASE_API_URL}user?name=${name}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}

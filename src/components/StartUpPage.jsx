@@ -8,8 +8,8 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	const history = useHistory()
 
 	useEffect(() => {
-		
-			
+		const checkActiveUser = async() => {
+			await	fetchAllUsers()
 		if(users.length > 0 ) {
 			if (localStorage.getItem('user')) {
 				
@@ -18,11 +18,13 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 				history.push('/translation');
 			}
 		}
-		else {
-			fetchAllUsers()
 		}
+		checkActiveUser()
 		
-	}, [users])
+			
+		
+		
+	}, [])
 
 	const [username, setUsername] = useState('')
 
@@ -31,6 +33,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	}
 	const onClick = () => {
 		const user = checkUserExists(username)
+		console.log(user);
 		if (user) {
 			if (username.match(/^[a-zA-Z]{1,16}$/)) {
 				localStorage.setItem("user", username)
@@ -71,13 +74,14 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	}
 
 	const checkUserExists = (username) => {
+		console.log(users);
 		for (const key of users) {
+			console.log(key);
 			if (key.name === username) {
 				return key
 			}
-			else 
-				return false
 		}
+		return false
 	}
 
 	return (
