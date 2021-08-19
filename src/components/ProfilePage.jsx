@@ -20,7 +20,6 @@ const ProfilePage = (props) => {
 	} = props
 
 	const history = useHistory()
-	//const [translations, setTranslations] = useState(null)
 
 	useEffect(() => {
 
@@ -78,6 +77,7 @@ const ProfilePage = (props) => {
 				<thead>
 					<th>Last 10 translations</th>
 				</thead>
+				<ul>
 				{
 					translations && translations.map(t => {
 						if(t.status === 'active')
@@ -86,6 +86,7 @@ const ProfilePage = (props) => {
 							return <div/>
 					})
 				}
+				</ul>
 			</table>
 			</div>
 			

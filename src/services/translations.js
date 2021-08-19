@@ -29,3 +29,12 @@ export const updateTranslationById = async (translation) => {
 	})
 }
 
+export const addTranslation = async (translation) => {
+	await fetch(`${BASE_API_URL}translation`, {
+		method: 'POST', 
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(translation),
+	})
+}

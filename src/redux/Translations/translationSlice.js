@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getTranslationsByUserId, updateTranslationById, getAllTranslations } from '../../services/translations';
+import { getTranslationsByUserId, updateTranslationById, getAllTranslations, addTranslation } from '../../services/translations';
 
 export const translationSlice = createSlice({
   name: 'translation',
@@ -48,7 +48,19 @@ export const translationSlice = createSlice({
 		updateTranslationsFailed: (state, action) => {
 			state.loading = false
 			state.error = action.payload
-		}
+		},
+		addNewTranslationStarted: (state) => {
+			state.loading = true
+		},
+		addNewTranslationSuccess: (state, action) => {
+			
+			state.loading = false
+			state.error = ''
+		},
+		addNewTranslationFailed: (state, action) => {
+			state.loading = false
+			state.error = action.payload
+		},
   }
   })
 
@@ -61,7 +73,10 @@ export const translationSlice = createSlice({
 		getAllTranslationsFailed,
 		updateTranslationsStarted,
 		updateTranslationsSuccess,
-		updateTranslationsFailed
+		updateTranslationsFailed,
+		addNewTranslationStarted,
+		addNewTranslationSuccess,
+		addNewTranslationFailed
 	} = translationSlice.actions;
 
  
@@ -70,7 +85,6 @@ export const translationSlice = createSlice({
 		try {    
 			const response = await getTranslationsByUserId(userId)   
 			const data = await response.json()
-				
 			dispatch(getTranslationsSuccess(data))  
 		} 
 		catch (err) {    
@@ -101,6 +115,18 @@ export const translationSlice = createSlice({
 		}
 		catch(err) {
 			dispatch(updateTranslationsFailed(err.toString()))
+		}
+	}
+
+	export const addNewTranslation = (translation) => async dispatch => {
+		dispatch(addNewTranslationStarted())
+		try {
+			await addTranslation(translation)
+
+			dispatch(addNewTranslationSuccess())
+		}
+		catch(err) {
+			dispatch(addNewTranslationFailed(err.toString()))
 		}
 	}
 	

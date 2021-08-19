@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userToState, fetchUserByName } from '../redux/User/userSlice';
+import { addNewTranslation } from '../redux/Translations/translationSlice';
 
-const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userToState }) => {
+const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToState, addNewTranslation}) => {
 
 	const history = useHistory()
 
@@ -15,12 +16,11 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 			if (!localStorage.getItem('user')) {
 				history.push('/');
 			}
-			else if (!activeUser) {
-				console.log('runs');
-				if (!userByNameResult)
-					await fetchUserByName(localStorage.getItem('user'))
-				if (userByNameResult)
+			else if(!activeUser) {
+				if(userByNameResult)
 					await userToState(userByNameResult[0])
+				else
+					await fetchUserByName(localStorage.getItem('user')) 
 			}
 		}
 		checkActiveUser()
@@ -33,39 +33,23 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 		setTranslationInput(e.target.value)
 	}
 	const onClick = () => {
-		if (translationInput.length < 40) {
+		if(translationInput.length < 40) {
 
-			localStorage.setItem('translation', translationInput)
+		localStorage.setItem('translation', translationInput)
+		
+		const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
+		addNewTranslation(data)
 
-			const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
-
-			fetch('http://localhost:5000/translation', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			})
-				.then(response => response.json())
-				.then(data => {
-					console.log('Success:', data);
-				})
-				.catch((error) => {
-					console.error('Error:', error);
-				});
-
-			renderTranslation();
-		}
-		else
-			alert('String too long, max 40 characters')
+		
+		setImageArray(translationInput.toLowerCase().split('').map(e => `../img/${e}.png`))
+	}
+	else 
+		alert('String too long, max 40 characters')
 	}
 	const onClickProfile = () => {
 		history.push('/profile')
 	}
 
-	const renderTranslation = () => {
-		setImageArray(translationInput.split('').map(e => `../img/${e}.png`))
-	}
 
 	return (
 		<div className="pageContainer">
@@ -117,6 +101,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		userToState: (args) => dispatch(userToState(args)),
 		fetchUserByName: (name) => dispatch(fetchUserByName(name)),
+		addNewTranslation: (translation) => dispatch(addNewTranslation(translation))
 	}
 }
 
