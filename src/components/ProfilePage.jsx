@@ -29,12 +29,11 @@ const ProfilePage = (props) => {
 			if (!localStorage.getItem('user')) {
 				history.push('/');
 			}
-			else if (!activeUser) {
-				console.log('runs');
-				await fetchUserByName(localStorage.getItem('user'))
-
-				if (userByNameResult)
-					await userToState(userByNameResult[0])
+			else if(!activeUser) {
+				await fetchUserByName(localStorage.getItem('user')) 
+				
+				if(userByNameResult)
+				await userToState(userByNameResult[0])
 			}
 			if (activeUser) {
 				fetchTranslationById(activeUser.id)
@@ -52,7 +51,6 @@ const ProfilePage = (props) => {
 	const clearTranslations = async () => {
 
 		for (let translation of allTranslations) {
-			console.log('runs: ' + translation);
 			const update = {
 				FK_userId: translation.FK_userId,
 				id: translation.id,
