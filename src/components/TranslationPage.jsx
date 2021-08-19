@@ -6,12 +6,13 @@ const TranslationPage = ({activeUser}) => {
 
 	const history = useHistory()
 
-	/* useEffect(() => {
-		if(!activeUser) {
-			console.log('runs: ' + activeUser);
+	useEffect(() => {
+		if(!localStorage.getItem('user')) {
+	
 			history.push('/');
+
 		}
-	}, []) */
+	}, [])
 
 	const [translationInput, setTranslationInput] = useState('')
 	const [imageArray, setImageArray] = useState(null)
@@ -44,11 +45,14 @@ const TranslationPage = ({activeUser}) => {
 		renderTranslation();
 	}
 	else 
-			alert('String too long, max 40 characters')
+		alert('String too long, max 40 characters')
+	}
+	const onClickProfile = () => {
+		history.push('/profile')
 	}
 
 	const renderTranslation = () => {
-       setImageArray(translationInput.split('').map(e => `../img/${e}.png`))
+    setImageArray(translationInput.split('').map(e => `../img/${e}.png`))
 	}
 
 	return (
@@ -69,11 +73,16 @@ const TranslationPage = ({activeUser}) => {
 						>Translate</button>	
 					</div>
 
-					<div className="userProfile">
+					<div className="userProfile" onClick={onClickProfile}>
 						<div className="userProfileWrapper">
 							<h3 className="userProfileName">{activeUser.name}</h3>
 						</div>
-						<img width={40} height={40} src="../img/usericon/usericon.png" alt="user icon"/>
+						<img 
+							width={40} 
+							height={40} 
+							src="../img/usericon/usericon.png" 
+							alt="user icon"
+							/>
 					</div>
 
 				</div>

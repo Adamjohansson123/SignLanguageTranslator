@@ -1,89 +1,100 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { userToState } from '../redux/User/userSlice';
+import { fetchTranslationById, updateTranslation, fetchAllTranslations } from '../redux/Translations/translationSlice';
+import { connect } from 'react-redux';
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
 
-    const history = useHistory()
-    const [data, setData] = useState(null)
+	const {
+		translations, 
+		userToState, 
+		activeUser, 
+		updateTranslation, 
+		fetchTranslationById, 
+		allTranslations,
+		fetchAllTranslations
+	} = props
 
-    useEffect(() => {
-        if (!localStorage.name) {
-            history.push('/');
-        }
+	const history = useHistory()
+	//const [translations, setTranslations] = useState(null)
 
-        fetch('http://localhost:5000/translation?_sort=id&_order=desc&_limit=10&status=active', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-
-                setData(data)
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }, [])
-
-    const clearTranslations = async() => {
-        for (let item of data) {
-					console.log(data);
-						console.log(item);
-            item.status = "deleted";
-						
-
-            await fetch('http://localhost:5000/translation/' + item.id, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(item),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    setData(null)
-                    console.log('Success:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }
-
-    }
-
-    const logOut = () => {
-        history.push('/');
-        localStorage.clear();
-    }
-
-    return (
-        <div>
-            <div>ProfilePage</div>
-
-            <table>
-                <thead>
-                    <th>Last 10 translations</th>
-                </thead>
-
-                {
-                    data && data.map(t =>
-                        <td>{t.translation}</td>
-                    )
-                }
-
-            </table>
-
-            <button
-                onClick={clearTranslations}
-            >Clear</button>
-
-            <button className="logOutBtn" onClick={logOut}>Log out</button>
-        </div>
+	useEffect(() => {
+		if (!localStorage.getItem('user')) {
+			history.push('/');
+		}
+		
+		fetchTranslationById(activeUser.id)
+		fetchAllTranslations(activeUser.id)
+	}, [])
 
 
-    )
+    /**
+	 * Method that sets all translations for the current user to 'deleted'.
+	 */
+	const clearTranslations = async() => {
+	
+		for (let translation of allTranslations) {
+			console.log('runs: ' + translation);
+			const update = {
+				FK_userId: translation.FK_userId,
+				id: translation.id,
+				status: 'deleted',
+				translation: translation.translation
+			}
+			await updateTranslation(update)
+		}
+	}
+
+	const logOut = () => {
+		userToState(null);
+		localStorage.clear();
+		history.push('/');
+	}	
+
+	return (
+		<div>
+			<div>ProfilePage</div>
+			<table>
+				<thead>
+					<th>Last 10 translations</th>
+				</thead>
+				{
+					translations && translations.map(t => {
+						if(t.status === 'active')
+							return <td>{t.translation}</td>
+						else 
+							return <div/>
+					})
+				}
+			</table>
+			
+			<button
+				onClick={clearTranslations}
+			>Clear</button>
+			<button className="logOutBtn" onClick={logOut}>Log out</button>
+		</div>
+	)
 }
-export default ProfilePage
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+	return {
+		userToState: (args) => dispatch(userToState(args)),
+		fetchTranslationById: (userId) => dispatch(fetchTranslationById(userId)),
+		fetchAllTranslations: (userId) => dispatch(fetchAllTranslations(userId)),
+		updateTranslation: (translation) => dispatch(updateTranslation(translation)),
+		
+}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		activeUser: state.user.activeUser,
+		translations: state.translations.translations,
+		allTranslations: state.translations.allTranslations,
+		loading: state.translations.loading,
+		error: state.translations.error
+		}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

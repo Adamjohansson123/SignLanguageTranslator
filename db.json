@@ -1,237 +1,562 @@
 {
   "user": [
     {
-      "id": 1,
-      "name": "test"
-    },
-    {
-      "name": "Adam testar",
-      "id": 2
-    },
-    {
-      "name": "Adam",
-      "id": 3
-    },
-    {
-      "name": "Testing",
-      "id": 4
-    },
-    {
-      "name": "Ante",
-      "id": 5
-    },
-    {
-      "name": "Ante",
-      "id": 6
-    },
-    {
-      "name": "Ante",
-      "id": 7
-    },
-    {
-      "name": "Ante",
-      "id": 8
-    },
-    {
-      "name": "Ante",
-      "id": 9
-    },
-    {
       "name": "ante",
-      "id": 10
-    },
-    {
-      "name": "ante",
-      "id": 11
-    },
-    {
-      "name": "Ante",
-      "id": 12
-    },
-    {
-      "name": "Ange",
-      "id": 13
-    },
-    {
-      "name": "ante",
-      "id": 14
-    },
-    {
-      "name": "ante",
-      "id": 15
-    },
-    {
-      "name": "ante",
-      "id": 16
-    },
-    {
-      "name": "ante",
-      "id": 17
-    },
-    {
-      "name": "ante",
-      "id": 18
-    },
-    {
-      "name": "ante",
-      "id": 19
-    },
-    {
-      "name": "ante",
-      "id": 20
-    },
-    {
-      "name": "ante",
-      "id": 21
-    },
-    {
-      "name": "antman",
-      "id": 22
-    },
-    {
-      "name": "ante",
-      "id": 23
-    },
-    {
-      "name": "ante",
-      "id": 24
-    },
-    {
-      "name": "anteante",
-      "id": 25
-    },
-    {
-      "name": "anteant",
-      "id": 26
-    },
-    {
-      "name": "ante",
-      "id": 27
+      "id": 1
     }
   ],
   "translation": [
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 1
     },
     {
       "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 2
     },
     {
       "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 3
     },
     {
-      "translation": "test",
+      "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 4
     },
     {
-      "translation": "test",
+      "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 5
     },
     {
-      "translation": "test",
+      "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 6
     },
     {
-      "translation": "test",
+      "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 7
     },
     {
-      "translation": "test",
+      "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 8
     },
     {
-      "translation": "test",
+      "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 9
     },
     {
-      "translation": "test",
+      "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 10
     },
     {
-      "translation": "test",
+      "translation": "hej",
       "status": "deleted",
+      "FK_userId": 1,
       "id": 11
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 12
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 13
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 14
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 15
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 16
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 17
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 18
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 19
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 20
     },
     {
       "translation": "hej",
-      "status": "active",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 21
     },
     {
       "translation": "hej",
-      "status": "active",
-      "FK_UserId": 16,
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 22
     },
     {
       "translation": "hej",
-      "status": "active",
-      "FK_userId": 24,
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 23
     },
     {
-      "translation": "hejsan",
-      "status": "active",
-      "FK_userId": 24,
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
       "id": 24
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 25
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 26
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 27
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 28
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 29
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 30
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 31
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 32
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 33
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 34
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 35
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 36
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 37
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 38
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 39
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 40
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 41
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 42
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 43
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 44
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 45
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 46
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 47
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 48
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 49
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 50
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 51
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 52
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 53
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 54
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 55
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 56
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 57
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 58
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 59
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 60
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 61
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 62
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 63
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 64
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 65
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 66
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 67
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 68
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 69
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 70
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 71
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 72
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 73
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 74
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 75
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 76
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 77
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 78
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 79
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 80
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 81
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 82
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 83
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 84
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 85
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 86
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 87
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 88
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 89
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 90
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 91
+    },
+    {
+      "translation": "hej",
+      "status": "deleted",
+      "FK_userId": 1,
+      "id": 92
     }
   ]
 }
