@@ -37,8 +37,7 @@ const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToS
 		const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
 		addNewTranslation(data)
 
-		
-		setImageArray(translationInput.toLowerCase().split('').map(e => `../img/${e}.png`))
+		setImageArray(translationInput.replace(/[^a-z]/g, '').toLowerCase().split('').map(e => `../img/${e}.png`))
 	}
 	else 
 		alert('String too long, max 40 characters')
