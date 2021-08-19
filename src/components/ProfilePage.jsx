@@ -23,6 +23,9 @@ const ProfilePage = (props) => {
 	//const [translations, setTranslations] = useState(null)
 
 	useEffect(() => {
+
+        document.body.style.backgroundColor = '#90CCF4'
+
 		const checkActiveUser = async () => {
 			if (!localStorage.getItem('user')) {
 				history.push('/');
@@ -68,21 +71,24 @@ const ProfilePage = (props) => {
 	}	
 
 	return (
-		<div>
+		<div className="pageContainer">
 			<div>ProfilePage</div>
-			<table>
+			<div>
+				<table>
 				<thead>
 					<th>Last 10 translations</th>
 				</thead>
 				{
 					translations && translations.map(t => {
 						if(t.status === 'active')
-							return <td>{t.translation}</td>
+							return <div><td>{t.translation}</td></div>
 						else 
 							return <div/>
 					})
 				}
 			</table>
+			</div>
+			
 			
 			<button
 				onClick={clearTranslations}

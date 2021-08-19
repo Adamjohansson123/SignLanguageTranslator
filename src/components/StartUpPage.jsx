@@ -8,22 +8,22 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	const history = useHistory()
 
 	useEffect(() => {
-		const checkActiveUser = async() => {
-			await	fetchAllUsers()
-		if(users.length > 0 ) {
-			if (localStorage.getItem('user')) {
-				
-				const user = checkUserExists(localStorage.getItem('user'))
-				userToState(user)
-				history.push('/translation');
+
+		document.body.style.backgroundColor = '#90CCF4'
+
+		const checkActiveUser = async () => {
+			await fetchAllUsers()
+			if (users.length > 0) {
+				if (localStorage.getItem('user')) {
+
+					const user = checkUserExists(localStorage.getItem('user'))
+					userToState(user)
+					history.push('/translation');
+				}
 			}
 		}
-		}
 		checkActiveUser()
-		
-			
-		
-		
+
 	}, [])
 
 	const [username, setUsername] = useState('')
@@ -85,18 +85,26 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	}
 
 	return (
-		<div>
-			<div>Please enter your name</div>
-			<input
-				id="fullNameInput"
-				placeholder="Enter your name"
-				name="name"
-				onChange={onChange}
-			/>
-			<button
-				className="nameInputBtn"
-				onClick={onClick}
-			>Log in</button>
+		<div className="pageContainer">
+			<div className="startPageTxt">Sign Language Translator</div>
+			<div>
+				<input
+				    className="startPageInput"
+					id="fullNameInput"
+					placeholder="Enter your name..."
+					name="name"
+					onChange={onChange}
+				/>
+			</div>
+
+			<div>
+				<button
+					className="nameInputBtn"
+					onClick={onClick}
+				>Log in</button>
+			</div>
+
+
 		</div>
 
 
