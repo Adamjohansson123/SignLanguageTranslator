@@ -8,12 +8,12 @@ import { act } from 'react-dom/test-utils';
 const ProfilePage = (props) => {
 
 	const {
-		translations, 
-		userToState, 
+		translations,
+		userToState,
 		userByNameResult,
-		activeUser, 
-		updateTranslation, 
-		fetchTranslationById, 
+		activeUser,
+		updateTranslation,
+		fetchTranslationById,
 		allTranslations,
 		fetchAllTranslations,
 		fetchUserByName
@@ -23,34 +23,34 @@ const ProfilePage = (props) => {
 
 	useEffect(() => {
 
-        document.body.style.backgroundColor = '#90CCF4'
+		document.body.style.backgroundColor = '#F79824'
 
 		const checkActiveUser = async () => {
 			if (!localStorage.getItem('user')) {
 				history.push('/');
 			}
-			else if(!activeUser) {
+			else if (!activeUser) {
 				console.log('runs');
-				await fetchUserByName(localStorage.getItem('user')) 
-				
-				if(userByNameResult)
-				await userToState(userByNameResult[0])
+				await fetchUserByName(localStorage.getItem('user'))
+
+				if (userByNameResult)
+					await userToState(userByNameResult[0])
 			}
-			if(activeUser) {
+			if (activeUser) {
 				fetchTranslationById(activeUser.id)
 				fetchAllTranslations(activeUser.id)
 			}
 		}
 		checkActiveUser()
-		
+
 	}, [userByNameResult, activeUser])
 
 
-    /**
+	/**
 	 * Method that sets all translations for the current user to 'deleted'.
 	 */
-	const clearTranslations = async() => {
-	
+	const clearTranslations = async () => {
+
 		for (let translation of allTranslations) {
 			console.log('runs: ' + translation);
 			const update = {
@@ -67,33 +67,31 @@ const ProfilePage = (props) => {
 		userToState(null);
 		localStorage.clear();
 		history.push('/');
-	}	
+	}
 
 	return (
 		<div className="pageContainer">
-			<div>ProfilePage</div>
+			<div className="profilePageTxt">Profile</div>
+			<div className="lastTranslationsTxt">Your 10 last translations</div>
 			<div>
 				<table>
-				<thead>
-					<th>Last 10 translations</th>
-				</thead>
-				<ul>
-				{
-					translations && translations.map(t => {
-						if(t.status === 'active')
-							return <div><td>{t.translation}</td></div>
-						else 
-							return <div/>
-					})
-				}
-				</ul>
-			</table>
+					{
+						translations && translations.map(t => {
+							if (t.status === 'active')
+								return <div>
+									<tr>
+										<td>{t.translation}</td>
+									</tr>
+								</div>
+							else
+								return <div />
+						})
+					}
+				</table>
 			</div>
-			
-			
-			<button
-				onClick={clearTranslations}
-			>Clear</button>
+
+
+			<button className="clearBtn" onClick={clearTranslations}>Clear</button>
 			<button className="logOutBtn" onClick={logOut}>Log out</button>
 		</div>
 	)
@@ -106,8 +104,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		fetchTranslationById: (userId) => dispatch(fetchTranslationById(userId)),
 		fetchAllTranslations: (userId) => dispatch(fetchAllTranslations(userId)),
 		updateTranslation: (translation) => dispatch(updateTranslation(translation)),
-		
-}
+
+	}
 }
 
 const mapStateToProps = (state) => {
@@ -118,7 +116,7 @@ const mapStateToProps = (state) => {
 		allTranslations: state.translations.allTranslations,
 		loading: state.translations.loading,
 		error: state.translations.error
-		}
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

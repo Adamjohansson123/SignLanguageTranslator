@@ -10,7 +10,7 @@ const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToS
 
 	useEffect(() => {
 
-		document.body.style.backgroundColor = '#90CCF4'
+		document.body.style.backgroundColor = '#F79824'
 
 		const checkActiveUser = async () => {
 			if (!localStorage.getItem('user')) {

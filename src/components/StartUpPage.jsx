@@ -8,6 +8,9 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	const history = useHistory()
 
 	useEffect(() => {
+
+        document.body.style.backgroundColor = '#F79824'
+
 		const checkActiveUser = async() => {
 			await	fetchAllUsers()
 			
