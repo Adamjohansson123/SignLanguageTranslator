@@ -1,5 +1,5 @@
 
-const BASE_API_URL = 'http://secret-sands-22629.herokuapp.com/'
+const BASE_API_URL = 'https://secret-sands-22629.herokuapp.com/'
 
 
 /**
