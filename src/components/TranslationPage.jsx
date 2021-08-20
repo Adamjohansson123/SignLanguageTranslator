@@ -10,9 +10,7 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 
 	useEffect(() => {
 
-		document.body.style.backgroundColor = '#F79824'
-
-        /**
+		/**
 		 * When the page is either created or refreshed the method checks if there is a username in the browsers localStorage.
 		 * If there´s not then the user gets redirected to the StartUpPage to log in. If there is a username in the browsers localStorage
 		 * then the method checks if there is a activeUser. If there´s not then it sets the activeUser either by userByNameResult or
@@ -44,27 +42,29 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 	 * and the array that holds each image that is used to display the translation from text to sign language is also set.
 	 */
 	const onClick = () => {
-		if (translationInput.match(/^[a-zA-Z]/)) {
-			if (translationInput.length < 40) {
-
+		if (translationInput.length === 0) {
+			alert('Please enter text to translate')
+			return
+		}
+		if (translationInput.length < 40) {
+			const checkForSpecialChars = /[^A-Za-z 0-9]/g
+			if (checkForSpecialChars.test(translationInput)) {
+				alert('Invalid input - translation input can only contain letters')
+			}
+			else {
 				localStorage.setItem('translation', translationInput)
-
 				const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
 				addNewTranslation(data)
-
-				setImageArray(translationInput.replace(/[^a-z]/g, '').toLowerCase().split('').map(e => `../img/${e}.png`))
+				setImageArray(translationInput.replace(/[^a-zA-Z]/g, '').toLowerCase().split('').map(e => `../img/${e}.png`))
 			}
-			else
-				alert('String too long, max 40 characters')
 		}
-		else {
-			alert('Invalid input - translation input can only contain letters')
-		}
+		else
+			alert('String too long, max 40 characters')
 	}
+
 	const onClickProfile = () => {
 		history.push('/profile')
 	}
-
 
 	return (
 		<div className="pageContainer">
@@ -76,7 +76,7 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 					placeholder="Text to translate..."
 					name="translation"
 					onChange={onChange}
-					
+
 				/>
 			</div>
 			<div>
@@ -98,21 +98,15 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 					alt="user icon"
 				/>
 			</div>
-
-
-
 			<div className="translationResultContainer">
 				{imageArray && imageArray.map((e, i) => {
 					return <img width={100} height={100} src={e} alt="img" key={i} />
 				})
 				}
-
 			</div>
 		</div>
-
 	)
 }
-
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getAllUsers, getUserByName } from '../../services/user';
+import { getAllUsers, getUserByName, addUser } from '../../services/user';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -11,6 +11,10 @@ export const userSlice = createSlice({
     error: ''
   },
   reducers: {
+    	/**
+		 * Reducers where each thunk has it's own three status setters, with pattern -
+		 * (reducer name) started/success/failed for keeping better track of requests
+		 */
     userToState: (state, action) => {
       state.activeUser = action.payload;
     },
@@ -21,7 +25,6 @@ export const userSlice = createSlice({
       state.users = action.payload
       state.loading = false
       state.error = ''
-
     },
     getAllUsersFailed: (state, action) => {
       state.error = action.payload
@@ -39,6 +42,17 @@ export const userSlice = createSlice({
       state.loading = false
       state.error = action.payload
     },
+    addNewUserStarted: (state) => {
+      state.loading = true
+    },
+    addNewUserSuccess: (state, action) => {
+      state.error = ''
+      state.loading = false
+    },
+    addNewUserFailed: (state, action) => {
+      state.error = action.payload
+      state.loading = false
+    },
   }
 })
 
@@ -49,9 +63,15 @@ export const {
   getAllUsersSuccess,
   getUserByNameStarted,
   getUserByNameSuccess,
-  getUserByNameFailed
+  getUserByNameFailed,
+  addNewUserStarted,
+  addNewUserSuccess,
+  addNewUserFailed
 } = userSlice.actions;
 
+/**
+ * Thunk for getting all users
+ */
 export const fetchAllUsers = () => async dispatch => {
   dispatch(getAllUsersStarted())
   try {
@@ -65,6 +85,9 @@ export const fetchAllUsers = () => async dispatch => {
   }
 }
 
+/**
+ * Thunk for getting a single user by it's name
+ */
 export const fetchUserByName = (name) => async dispatch => {
   dispatch(getUserByNameStarted())
   try {
@@ -75,6 +98,23 @@ export const fetchUserByName = (name) => async dispatch => {
   }
   catch(err) {
     dispatch(getUserByNameFailed(err.toString()))
+  }
+}
+
+/**
+ * Thunk for adding a single new user, takes just a name for input. Acts only as http request and
+ * sets no state in return.
+ */
+export const addNewUser = (name) => async dispatch => {
+  dispatch(addNewUserStarted())
+  try {
+    const response = await addUser(name)
+    const data = await response.json()
+
+    dispatch(addNewUserSuccess())
+  }
+  catch(err) {
+    dispatch(addNewUserFailed(err.toString()))
   }
 }
 

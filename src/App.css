@@ -1,3 +1,16 @@
+body {
+  background-color: #F79824;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
 .pageContainer {
   text-align: center;
 }
@@ -30,7 +43,6 @@ button {
 }
 .nameInputBtn {
   font-size: 25px;
-  border: 1px solid black;
   width: 20%;
   margin-top: 50px;
 }
@@ -137,7 +149,6 @@ table tr td:first-child::before
 
 .logOutBtn {
   font-size: 20px;
-  border: 1px solid black;
   width: 10%;
   margin-top: 20px;
   margin-left: 10px;
@@ -146,7 +157,6 @@ table tr td:first-child::before
 
 .clearBtn {
   font-size: 20px;
-  border: 1px solid black;
   width: 10%;
   margin-top: 20px;
   margin-right: 10px;

@@ -1,22 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-import { userToState, fetchAllUsers } from '../redux/User/userSlice';
+import { userToState, fetchAllUsers, addNewUser } from '../redux/User/userSlice';
 import { connect } from 'react-redux';
 
-const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
+const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser }) => {
 
 	const history = useHistory()
+	const [username, setUsername] = useState('')
 
-	useEffect(() => {
-
-		document.body.style.backgroundColor = '#F79824'
-
-		/**
+	/**
 		 * When the page is either created or refreshed the method fetch all users. If there is a username in the browsers localStorage
 		 * then the username gets sent to the checkUserExists method that checks if the user exists or not. If it exists then the method returns 
 		 * the user object that´s connected with that username. The user object is then sent to the userToState method in redux which sets the current user.
 		 * The user then gets redirected to the translation page.  
 		 */
+	useEffect(() => {
+		
 		const checkActiveUser = async () => {
 			await fetchAllUsers()
 
@@ -25,12 +24,9 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 				userToState(user)
 				history.push('/translation');
 			}
-
 		}
 		checkActiveUser()
 	}, [])
-
-	const [username, setUsername] = useState('')
 
 	const onChange = (e) => {
 		setUsername(e.target.value)
@@ -54,26 +50,13 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 			}
 		}
 		else {
-			if (username.match(/^[a-zA-Z]{1,16}$/)) {  // Check if username is correct format 		
-
+			 // Check if username is correct format 
+			if (username.match(/^[a-zA-Z]{1,16}$/)) { 		
 				const data = { name: username };
-
-				fetch('http://localhost:5000/user', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(data),
-				})
-					.then(response => response.json())
-					.then(data => {
-						userToState(data) // Send the data to redux user state
-						localStorage.setItem('user', data.name)
-						history.push('/translation');
-					})
-					.catch((error) => {
-						console.error('Error:', error);
-					});
+				addNewUser(data)
+				localStorage.setItem("user", username)
+				userToState(data)
+				history.push('/translation');
 			}
 			else {
 				alert('Invalid input - name must contain between 1-16 characters and only letters')
@@ -83,7 +66,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 
 	/**
 	 * 
-	 * @param {*} username Takes in a username (string) as a argument
+	 * @param {*} username Takes in a username (string) as an argument
 	 * @returns Either a user object or false, depending on if the user exists in the database or not. 
 	 */
 	const checkUserExists = (username) => {
@@ -98,6 +81,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	return (
 		<div className="pageContainer">
 			<div className="startPageTxt">LOST IN TRANSLATION</div>
+			
 			<div>
 				<input
 					className="startPageInput"
@@ -107,25 +91,21 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 					onChange={onChange}
 				/>
 			</div>
-
 			<div>
 				<button
 					className="nameInputBtn"
 					onClick={onClick}
 				>Log in</button>
 			</div>
-
-
 		</div>
-
-
 	)
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		userToState: (args) => dispatch(userToState(args)),
-		fetchAllUsers: () => dispatch(fetchAllUsers())
+		fetchAllUsers: () => dispatch(fetchAllUsers()),
+		addNewUser: (data) => dispatch(addNewUser(data))
 	}
 }
 

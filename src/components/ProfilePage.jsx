@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { userToState, fetchUserByName } from '../redux/User/userSlice';
 import { fetchTranslationById, updateTranslation, fetchAllTranslations } from '../redux/Translations/translationSlice';
@@ -22,13 +22,11 @@ const ProfilePage = (props) => {
 
 	useEffect(() => {
 
-		document.body.style.backgroundColor = '#F79824'
-
 		/**
 		 * When the page is either created or refreshed the method checks if there is a username in the browsers localStorage.
 		 * If there´s not then the user gets redirected to the StartUpPage to log in. If there is a username in the browsers localStorage
 		 * then the method checks if there is a activeUser. If there´s not then it sets the activeUser either by userByNameResult or
-		 * by sending the username from the localStorage to the fetchUserByName method. If there is a activeUser then  the id of that user
+		 * by sending the username from the localStorage to the fetchUserByName method. If there is a activeUser then the id of that user
 		 * is sent to the fetchTranslationById method and the fetchAllTranslations to fetch all translations that are connected to the current user.
 		 */
 		const checkActiveUser = async () => {
@@ -86,7 +84,7 @@ const ProfilePage = (props) => {
 			<div className="profilePageTxt">Profile</div>
 			<div className="lastTranslationsTxt">Your 10 last translations</div>
 
-            <div className="goBackArrow" onClick={onClickGoBack}>
+						<div className="goBackArrow" onClick={onClickGoBack}>
 				<img
 					width={40}
 					height={40}
@@ -111,7 +109,6 @@ const ProfilePage = (props) => {
 					}
 				</table>
 			</div>
-
 
 			<button className="clearBtn" onClick={clearTranslations}>Clear</button>
 			<button className="logOutBtn" onClick={logOut}>Log out</button>

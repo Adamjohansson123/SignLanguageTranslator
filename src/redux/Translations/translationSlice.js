@@ -1,15 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getTranslationsByUserId, updateTranslationById, getAllTranslations, addTranslation } from '../../services/translations';
+import { 
+	getTranslationsByUserId, 
+	updateTranslationById, 
+	getAllTranslations, 
+	addTranslation } from '../../services/translations';
 
 export const translationSlice = createSlice({
   name: 'translation',
   initialState: {
     translations: [],
-	allTranslations: [],
+		allTranslations: [],
     loading: false,
     error: ''
   },
   reducers: {
+	/**
+	 * Reducers where each thunk has it's own three status setters, with pattern -
+	 * (reducer name) started/success/failed for keeping better track of requests
+	 */
 		getTranslationsStarted: (state) => {
 			state.loading = true
 		},
@@ -38,10 +46,8 @@ export const translationSlice = createSlice({
 			state.loading = true
 		},
 		updateTranslationsSuccess: (state, action) => {
-		
 			const index = state.translations.findIndex(e => e.id === action.payload.id)
 			state.translations[index].status = action.payload.status
-		
 			state.loading = false
 			state.error = ''
 		},
@@ -53,7 +59,6 @@ export const translationSlice = createSlice({
 			state.loading = true
 		},
 		addNewTranslationSuccess: (state, action) => {
-			
 			state.loading = false
 			state.error = ''
 		},
@@ -79,7 +84,10 @@ export const translationSlice = createSlice({
 		addNewTranslationFailed
 	} = translationSlice.actions;
 
- 
+	/**
+	 * Async thunk for getting a single translation by it's ID, sets the state depending on the status
+	 * of the request. Request started, request success etc.
+	 */
 	export const fetchTranslationById = (userId) => async dispatch => { 
 		dispatch(getTranslationsStarted())  
 		try {    
@@ -92,6 +100,9 @@ export const translationSlice = createSlice({
 		}
 	} 
 
+	/**
+	 * Thunk for getting all translations belonging to the specified user ID
+	 */
 	export const fetchAllTranslations = (userId) => async dispatch => {
 		dispatch(getAllTranslationsStarted())
 		try {
@@ -105,6 +116,10 @@ export const translationSlice = createSlice({
 		}
 	}
 
+	/**
+	 * Thunk for modifying an existing translation, takes a translation object and if it exists
+	 * in the database, will recieve the updated version of the translation.
+	 */
 	export const updateTranslation = (translation) => async dispatch => {
 		dispatch(updateTranslationsStarted())
 		try {
@@ -118,6 +133,10 @@ export const translationSlice = createSlice({
 		}
 	}
 
+	/**
+	 * Thunk for posting a single new translation, takes a new translation object and appends it
+	 * to the database with an automagically generated ID
+	 */
 	export const addNewTranslation = (translation) => async dispatch => {
 		dispatch(addNewTranslationStarted())
 		try {
