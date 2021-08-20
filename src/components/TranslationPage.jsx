@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { userToState, fetchUserByName } from '../redux/User/userSlice';
 import { addNewTranslation } from '../redux/Translations/translationSlice';
 
-const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToState, addNewTranslation}) => {
+const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userToState, addNewTranslation }) => {
 
 	const history = useHistory()
 
@@ -12,15 +12,21 @@ const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToS
 
 		document.body.style.backgroundColor = '#F79824'
 
+        /**
+		 * When the page is either created or refreshed the method checks if there is a username in the browsers localStorage.
+		 * If there´s not then the user gets redirected to the StartUpPage to log in. If there is a username in the browsers localStorage
+		 * then the method checks if there is a activeUser. If there´s not then it sets the activeUser either by userByNameResult or
+		 * by sending the username from the localStorage to the fetchUserByName method. 
+		 */
 		const checkActiveUser = async () => {
 			if (!localStorage.getItem('user')) {
 				history.push('/');
 			}
-			else if(!activeUser) {
-				if(userByNameResult)
+			else if (!activeUser) {
+				if (userByNameResult)
 					await userToState(userByNameResult[0])
 				else
-					await fetchUserByName(localStorage.getItem('user')) 
+					await fetchUserByName(localStorage.getItem('user'))
 			}
 		}
 		checkActiveUser()
@@ -32,18 +38,28 @@ const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToS
 	const onChange = (e) => {
 		setTranslationInput(e.target.value)
 	}
+
+	/**
+	 * Method that checks if the translation input is valid or not. If the input is OK then a new translation is added to the database
+	 * and the array that holds each image that is used to display the translation from text to sign language is also set.
+	 */
 	const onClick = () => {
-		if(translationInput.length < 40) {
+		if (translationInput.match(/^[a-zA-Z]/)) {
+			if (translationInput.length < 40) {
 
-		localStorage.setItem('translation', translationInput)
-		
-		const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
-		addNewTranslation(data)
+				localStorage.setItem('translation', translationInput)
 
-		setImageArray(translationInput.replace(/[^a-z]/g, '').toLowerCase().split('').map(e => `../img/${e}.png`))
-	}
-	else 
-		alert('String too long, max 40 characters')
+				const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
+				addNewTranslation(data)
+
+				setImageArray(translationInput.replace(/[^a-z]/g, '').toLowerCase().split('').map(e => `../img/${e}.png`))
+			}
+			else
+				alert('String too long, max 40 characters')
+		}
+		else {
+			alert('Invalid input - translation input can only contain letters')
+		}
 	}
 	const onClickProfile = () => {
 		history.push('/profile')
@@ -59,11 +75,12 @@ const TranslationPage = ({activeUser, userByNameResult, fetchUserByName, userToS
 					placeholder="Text to translate..."
 					name="translation"
 					onChange={onChange}
+					
 				/>
 			</div>
 			<div>
 				<button
-				    className="translateBtn"
+					className="translateBtn"
 					id="translationInputBtn"
 					onClick={onClick}
 				>Translate</button>

@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { userToState, fetchUserByName } from '../redux/User/userSlice';
 import { fetchTranslationById, updateTranslation, fetchAllTranslations } from '../redux/Translations/translationSlice';
 import { connect } from 'react-redux';
-import { act } from 'react-dom/test-utils';
 
 const ProfilePage = (props) => {
 
@@ -25,6 +24,13 @@ const ProfilePage = (props) => {
 
 		document.body.style.backgroundColor = '#F79824'
 
+		/**
+		 * When the page is either created or refreshed the method checks if there is a username in the browsers localStorage.
+		 * If there´s not then the user gets redirected to the StartUpPage to log in. If there is a username in the browsers localStorage
+		 * then the method checks if there is a activeUser. If there´s not then it sets the activeUser either by userByNameResult or
+		 * by sending the username from the localStorage to the fetchUserByName method. If there is a activeUser then  the id of that user
+		 * is sent to the fetchTranslationById method and the fetchAllTranslations to fetch all translations that are connected to the current user.
+		 */
 		const checkActiveUser = async () => {
 			if (!localStorage.getItem('user')) {
 				history.push('/');
@@ -46,7 +52,7 @@ const ProfilePage = (props) => {
 
 
 	/**
-	 * Method that sets all translations for the current user to 'deleted'.
+	 * Method that sets all translations for the current user to 'deleted'. 
 	 */
 	const clearTranslations = async () => {
 
@@ -61,6 +67,14 @@ const ProfilePage = (props) => {
 		}
 	}
 
+	const onClickGoBack = () => {
+		history.push('/translation')
+	}
+
+	/**
+	 * Method for logging out. If the user logs out then the current user is set to null with the userToState
+	 * method, the localStorage gets cleared and the user gets redirected to the StartUpPage. 
+	 */
 	const logOut = () => {
 		userToState(null);
 		localStorage.clear();
@@ -71,6 +85,16 @@ const ProfilePage = (props) => {
 		<div className="pageContainer">
 			<div className="profilePageTxt">Profile</div>
 			<div className="lastTranslationsTxt">Your 10 last translations</div>
+
+            <div className="goBackArrow" onClick={onClickGoBack}>
+				<img
+					width={40}
+					height={40}
+					src="../img/gobackicon/arrow.png"
+					alt="user icon"
+				/>
+			</div>
+
 			<div>
 				<table>
 					{

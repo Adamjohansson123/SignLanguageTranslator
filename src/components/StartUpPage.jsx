@@ -9,17 +9,23 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 
 	useEffect(() => {
 
-        document.body.style.backgroundColor = '#F79824'
+		document.body.style.backgroundColor = '#F79824'
 
-		const checkActiveUser = async() => {
-			await	fetchAllUsers()
-			
-				if (localStorage.getItem('user')) {
-					const user = checkUserExists(localStorage.getItem('user'))
-					userToState(user)
-					history.push('/translation');
-				}
-			
+		/**
+		 * When the page is either created or refreshed the method fetch all users. If there is a username in the browsers localStorage
+		 * then the username gets sent to the checkUserExists method that checks if the user exists or not. If it exists then the method returns 
+		 * the user object that´s connected with that username. The user object is then sent to the userToState method in redux which sets the current user.
+		 * The user then gets redirected to the translation page.  
+		 */
+		const checkActiveUser = async () => {
+			await fetchAllUsers()
+
+			if (localStorage.getItem('user')) {
+				const user = checkUserExists(localStorage.getItem('user'))
+				userToState(user)
+				history.push('/translation');
+			}
+
 		}
 		checkActiveUser()
 	}, [])
@@ -29,6 +35,12 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 	const onChange = (e) => {
 		setUsername(e.target.value)
 	}
+
+	/**
+	 * Method that takes in a username from the input field. It then sends the username to another method that checks if the user already exist or not. 
+	 * If it exists in the database then the user gets logged in as the existing user and redirected to the translation page. If the user doesn´t exist in the database
+	 * then a new user is created and stored in the database. 
+	 */
 	const onClick = () => {
 		const user = checkUserExists(username)
 		if (user) {
@@ -42,7 +54,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 			}
 		}
 		else {
-			if (username.match(/^[a-zA-Z]{1,16}$/)) {		// Check if username is correct format 		
+			if (username.match(/^[a-zA-Z]{1,16}$/)) {  // Check if username is correct format 		
 
 				const data = { name: username };
 
@@ -55,7 +67,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 				})
 					.then(response => response.json())
 					.then(data => {
-						userToState(data)								// Send to redux user state
+						userToState(data) // Send the data to redux user state
 						localStorage.setItem('user', data.name)
 						history.push('/translation');
 					})
@@ -69,6 +81,11 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 		}
 	}
 
+	/**
+	 * 
+	 * @param {*} username Takes in a username (string) as a argument
+	 * @returns Either a user object or false, depending on if the user exists in the database or not. 
+	 */
 	const checkUserExists = (username) => {
 		for (const key of users) {
 			if (key.name === username) {
@@ -83,7 +100,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 			<div className="startPageTxt">Sign Language Translator</div>
 			<div>
 				<input
-				    className="startPageInput"
+					className="startPageInput"
 					id="fullNameInput"
 					placeholder="Enter your name..."
 					name="name"
