@@ -1,3 +1,19 @@
+# Lost in Translation
+React Application for translate text to sign language. 
+
+For the backend the application uses the https://github.com/typicode/json-server as a database. 
+
+Link to the application in Heroku: 
+
+## StartUp
+When you start the application you will need to log in by enter a username. If you already have a username you can log in with that. 
+
+## Translation
+When you have logged in you will be redirected to the TranslationPage where you can translate words and sentences to sign language. Each translation you do gets stored in the database. 
+
+## Profile
+If you click the profile button in the TranslationPage you will be redirected to your ProfilePage. Here you can see your last 10 translations, clear all your previous translations and log out which redirects you to the StartUpPage. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
