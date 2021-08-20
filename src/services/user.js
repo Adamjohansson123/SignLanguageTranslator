@@ -1,7 +1,7 @@
 const BASE_API_URL = 'https://secret-sands-22629.herokuapp.com/'
 
 /**
- * File containing basic http requests for users with their respsective URLs
+ * File containing basic https requests for users with their respsective URLs
  */
 
 export const getAllUsers = () => {
@@ -28,5 +28,6 @@ export const addUser = (user) => {
 		headers: {
 			'Content-Type': 'application/json',
 		},
+		body: JSON.stringify(user)
 	})
 }

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-import { userToState, fetchAllUsers, addNewUser } from '../redux/User/userSlice';
+import { userToState, fetchAllUsers, addNewUser, fetchUserByName } from '../redux/User/userSlice';
 import { connect } from 'react-redux';
 
-const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser }) => {
+const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, fetchUserByName, userByNameResult }) => {
 
 	const history = useHistory()
 	const [username, setUsername] = useState('')
@@ -37,8 +37,8 @@ const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser }) => {
 	 * If it exists in the database then the user gets logged in as the existing user and redirected to the translation page. If the user doesn´t exist in the database
 	 * then a new user is created and stored in the database. 
 	 */
-	const onClick = () => {
-		const user = checkUserExists(username)
+	const onClick = async() => {
+		const user = await fetchUserByName(username)
 		if (user) {
 			if (username.match(/^[a-zA-Z]{1,16}$/)) {
 				localStorage.setItem("user", username)
@@ -53,9 +53,10 @@ const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser }) => {
 			 // Check if username is correct format 
 			if (username.match(/^[a-zA-Z]{1,16}$/)) { 		
 				const data = { name: username };
-				addNewUser(data)
-				localStorage.setItem("user", username)
-				userToState(data)
+				await addNewUser(data)
+				await fetchUserByName(data.name)
+				localStorage.setItem("user", data.name)
+				userToState(userByNameResult)
 				history.push('/translation');
 			}
 			else {
@@ -71,7 +72,9 @@ const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser }) => {
 	 */
 	const checkUserExists = (username) => {
 		for (const key of users) {
+			console.log(key);
 			if (key.name === username) {
+					console.log('key: '+key);
 				return key
 			}
 		}
@@ -105,7 +108,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		userToState: (args) => dispatch(userToState(args)),
 		fetchAllUsers: () => dispatch(fetchAllUsers()),
-		addNewUser: (data) => dispatch(addNewUser(data))
+		addNewUser: (data) => dispatch(addNewUser(data)),
+		fetchUserByName: (name) => dispatch(fetchUserByName(name))
 	}
 }
 
@@ -113,6 +117,7 @@ const mapStateToProps = (state) => {
 	return {
 		activeUser: state.user.activeUser,
 		users: state.user.users,
+		userByNameResult: state.user.userByNameResult,
 	}
 }
 

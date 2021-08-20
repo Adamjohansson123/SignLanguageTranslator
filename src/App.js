@@ -2,7 +2,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import StartPage from './components/StartUpPage'
@@ -25,8 +24,6 @@ function App() {
         </Route>
       </Switch>
     </Router>
-
-    
   );
 }
 

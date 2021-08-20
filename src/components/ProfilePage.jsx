@@ -84,7 +84,7 @@ const ProfilePage = (props) => {
 			<div className="profilePageTxt">Profile</div>
 			<div className="lastTranslationsTxt">Your 10 last translations</div>
 
-						<div className="goBackArrow" onClick={onClickGoBack}>
+			<div className="goBackArrow" onClick={onClickGoBack}>
 				<img
 					width={40}
 					height={40}
@@ -96,15 +96,15 @@ const ProfilePage = (props) => {
 			<div>
 				<table>
 					{
-						translations && translations.map(t => {
+						translations && translations.map((t,i) => {
 							if (t.status === 'active')
-								return <div>
+								return <tbody key={i}>
 									<tr>
 										<td>{t.translation}</td>
 									</tr>
-								</div>
+								</tbody>
 							else
-								return <div />
+								return <tbody />
 						})
 					}
 				</table>
