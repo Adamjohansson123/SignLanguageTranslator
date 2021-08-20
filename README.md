@@ -14,6 +14,7 @@ When you have logged in you will be redirected to the TranslationPage where you 
 ## Profile
 If you click the profile button in the TranslationPage you will be redirected to your ProfilePage. Here you can see your last 10 translations, clear all your previous translations and log out which redirects you to the StartUpPage. 
 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
