@@ -97,7 +97,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers }) => {
 
 	return (
 		<div className="pageContainer">
-			<div className="startPageTxt">Sign Language Translator</div>
+			<div className="startPageTxt">LOST IN TRANSLATION</div>
 			<div>
 				<input
 					className="startPageInput"

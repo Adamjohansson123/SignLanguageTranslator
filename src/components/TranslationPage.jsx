@@ -69,6 +69,7 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 	return (
 		<div className="pageContainer">
 			<div>
+				<div className="translationPageTxt">LOST IN TRANSLATION</div>
 				<input
 					className="translationPageInput"
 					id="translationInput"
