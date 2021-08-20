@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { userToState, fetchUserByName } from '../redux/User/userSlice';
+import { userToState, fetchUserByName, resetState } from '../redux/User/userSlice';
 import { fetchTranslationById, updateTranslation, fetchAllTranslations } from '../redux/Translations/translationSlice';
 import { connect } from 'react-redux';
 
@@ -96,15 +96,15 @@ const ProfilePage = (props) => {
 			<div>
 				<table>
 					{
-						translations && translations.map((t,i) => {
+						translations && translations.map((t, i) => {
 							if (t.status === 'active')
-								return <tbody key={i}>
+								return <tbody key={t.id}>
 									<tr>
 										<td>{t.translation}</td>
 									</tr>
 								</tbody>
 							else
-								return <tbody />
+								return <tbody key={'empty '+i}/>
 						})
 					}
 				</table>
@@ -116,14 +116,14 @@ const ProfilePage = (props) => {
 	)
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
 	return {
 		userToState: (args) => dispatch(userToState(args)),
 		fetchUserByName: (name) => dispatch(fetchUserByName(name)),
 		fetchTranslationById: (userId) => dispatch(fetchTranslationById(userId)),
 		fetchAllTranslations: (userId) => dispatch(fetchAllTranslations(userId)),
 		updateTranslation: (translation) => dispatch(updateTranslation(translation)),
-
+		resetState: () => dispatch(resetState()),
 	}
 }
 

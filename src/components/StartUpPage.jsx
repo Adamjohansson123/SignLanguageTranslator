@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { userToState, fetchAllUsers, addNewUser, fetchUserByName } from '../redux/User/userSlice';
 import { connect } from 'react-redux';
 
-const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, fetchUserByName, userByNameResult }) => {
+const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, userByNameResult, newUser }) => {
 
 	const history = useHistory()
 	const [username, setUsername] = useState('')
@@ -26,7 +26,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, fetchUserB
 			}
 		}
 		checkActiveUser()
-	}, [])
+	}, [userByNameResult])
 
 	const onChange = (e) => {
 		setUsername(e.target.value)
@@ -38,33 +38,33 @@ const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, fetchUserB
 	 * then a new user is created and stored in the database. 
 	 */
 	const onClick = async() => {
-		const user = await fetchUserByName(username)
-		if (user) {
-			if (username.match(/^[a-zA-Z]{1,16}$/)) {
+		const user = await checkUserExists(username)
+
+		// Check if username is correct format 
+		if(username.match(/^[a-zA-Z]{1,16}$/)) {
+			if (user) {
 				localStorage.setItem("user", username)
 				userToState(user)
 				history.push('/translation');
 			}
 			else {
-				alert('Invalid input - name must contain between 1-16 characters and only letters')
+				await	asdas()
 			}
 		}
 		else {
-			 // Check if username is correct format 
-			if (username.match(/^[a-zA-Z]{1,16}$/)) { 		
-				const data = { name: username };
-				await addNewUser(data)
-				await fetchUserByName(data.name)
-				localStorage.setItem("user", data.name)
-				userToState(userByNameResult)
-				history.push('/translation');
-			}
-			else {
-				alert('Invalid input - name must contain between 1-16 characters and only letters')
-			}
+			alert('Invalid input - name must contain between 1-16 characters and only letters')
 		}
 	}
 
+	const asdas = async () => {
+		const data = { name: username };
+		await addNewUser(data)
+		localStorage.setItem("user", data.name)
+		console.log(newUser);
+		await fetchUserByName(data.name)
+		await userToState(newUser)
+		history.push('/translation');
+	}
 	/**
 	 * 
 	 * @param {*} username Takes in a username (string) as an argument
@@ -72,9 +72,7 @@ const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, fetchUserB
 	 */
 	const checkUserExists = (username) => {
 		for (const key of users) {
-			console.log(key);
 			if (key.name === username) {
-					console.log('key: '+key);
 				return key
 			}
 		}
@@ -118,6 +116,7 @@ const mapStateToProps = (state) => {
 		activeUser: state.user.activeUser,
 		users: state.user.users,
 		userByNameResult: state.user.userByNameResult,
+		newUser: state.user.newUser
 	}
 }
 

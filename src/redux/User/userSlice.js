@@ -6,6 +6,7 @@ export const userSlice = createSlice({
   initialState: {
     activeUser: null,
     users: [],
+    newUser: null,
     userByNameResult: null,
     loading: false,
     error: ''
@@ -46,6 +47,7 @@ export const userSlice = createSlice({
       state.loading = true
     },
     addNewUserSuccess: (state, action) => {
+      state.newUser = action.payload
       state.error = ''
       state.loading = false
     },
@@ -53,6 +55,7 @@ export const userSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
+
   }
 })
 
@@ -66,7 +69,8 @@ export const {
   getUserByNameFailed,
   addNewUserStarted,
   addNewUserSuccess,
-  addNewUserFailed
+  addNewUserFailed,
+  resetState
 } = userSlice.actions;
 
 /**
@@ -110,8 +114,9 @@ export const addNewUser = (name) => async dispatch => {
   try {
     const response = await addUser(name)
     const data = await response.json()
+    console.log(data);
 
-    dispatch(addNewUserSuccess())
+    dispatch(addNewUserSuccess(data))
   }
   catch(err) {
     dispatch(addNewUserFailed(err.toString()))

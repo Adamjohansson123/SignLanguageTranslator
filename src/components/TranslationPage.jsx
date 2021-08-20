@@ -20,12 +20,15 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 			if (!localStorage.getItem('user')) {
 				history.push('/');
 			}
-			else if (!activeUser) {
-				if (userByNameResult)
-					await userToState(userByNameResult[0])
-				else
-					await fetchUserByName(localStorage.getItem('user'))
+
+			if (userByNameResult) {
+				console.log("userByNameResult")
+				console.log(userByNameResult)
+				await userToState(userByNameResult[0])
 			}
+			else
+				await fetchUserByName(localStorage.getItem('user'))
+
 		}
 		checkActiveUser()
 	}, [userByNameResult])
@@ -108,7 +111,7 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 	)
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
 	return {
 		userToState: (args) => dispatch(userToState(args)),
 		fetchUserByName: (name) => dispatch(fetchUserByName(name)),
