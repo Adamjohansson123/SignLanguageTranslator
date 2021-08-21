@@ -113,7 +113,6 @@ export const addNewUser = (name) => async dispatch => {
   try {
     const response = await addUser(name)
     const data = await response.json()
-    console.log(data);
 
     dispatch(addNewUserSuccess(data))
   }
