@@ -50,8 +50,8 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 			return
 		}
 		if (translationInput.length < 40) {
-			const checkForSpecialChars = /[^A-Za-z]/g
-			if (checkForSpecialChars.test(translationInput)) {
+			const checkForSpecialChars = /^[a-zA-Z\s]*$/
+			if (!checkForSpecialChars.test(translationInput)) {
 				alert('Invalid input - translation input can only contain letters')
 			}
 			else {
