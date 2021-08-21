@@ -3,7 +3,7 @@ React Application for translate text to sign language.
 
 For the backend the application uses the https://github.com/typicode/json-server as a database. 
 
-Link to the application in Heroku: 
+Link to the application in Heroku: https://obscure-harbor-04705.herokuapp.com/
 
 ## StartUp
 When you start the application you will need to log in by enter a username. If you already have a username you can log in with that. 
