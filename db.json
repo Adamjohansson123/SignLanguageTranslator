@@ -1,0 +1,16 @@
+{
+  "user": [
+    {
+      "id": 0,
+      "name": "Sean"
+    }  
+  ],
+  "translation": [
+    {
+      "id": 0,
+      "translation": "How old are you",
+      "status": "active",
+      "FK_userId": 0
+    }
+  ]
+}
