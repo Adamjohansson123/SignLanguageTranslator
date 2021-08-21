@@ -3,7 +3,16 @@ import { useHistory } from 'react-router-dom';
 import { userToState, fetchAllUsers, addNewUser, fetchUserByName } from '../redux/User/userSlice';
 import { connect } from 'react-redux';
 
-const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, userByNameResult, newUser }) => {
+const StartUpPage = (props) => {
+
+	const { 
+		activeUser,
+		userToState, 
+		users, 
+		fetchAllUsers, 
+		addNewUser,  
+		newUser, 
+	 } = props
 
 	const history = useHistory()
 	const [username, setUsername] = useState('')
@@ -18,15 +27,18 @@ const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, userByName
 		
 		const checkActiveUser = async () => {
 			await fetchAllUsers()
-
+			
 			if (localStorage.getItem('user')) {
 				const user = checkUserExists(localStorage.getItem('user'))
 				userToState(user)
 				history.push('/translation');
 			}
+			else if(!activeUser && newUser) {
+				await userToState(newUser)
+			}
 		}
 		checkActiveUser()
-	}, [userByNameResult])
+	}, [newUser])
 
 	const onChange = (e) => {
 		setUsername(e.target.value)
@@ -38,32 +50,25 @@ const StartUpPage = ({ userToState, users, fetchAllUsers, addNewUser, userByName
 	 * then a new user is created and stored in the database. 
 	 */
 	const onClick = async() => {
-		const user = await checkUserExists(username)
-
+		
 		// Check if username is correct format 
 		if(username.match(/^[a-zA-Z]{1,16}$/)) {
-			if (user) {
+			
+			if (users.some(e => e.name === username)) {
+				const user = users.find(e => e.name === username)
 				localStorage.setItem("user", username)
-				userToState(user)
+				await userToState(user)
 				history.push('/translation');
 			}
 			else {
-				await	asdas()
+				const data = { name: username };
+				await addNewUser(data)
+				localStorage.setItem("user", data.name)
 			}
 		}
 		else {
 			alert('Invalid input - name must contain between 1-16 characters and only letters')
 		}
-	}
-
-	const asdas = async () => {
-		const data = { name: username };
-		await addNewUser(data)
-		localStorage.setItem("user", data.name)
-		console.log(newUser);
-		await fetchUserByName(data.name)
-		await userToState(newUser)
-		history.push('/translation');
 	}
 	/**
 	 * 

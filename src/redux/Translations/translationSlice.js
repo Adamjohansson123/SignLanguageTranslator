@@ -9,10 +9,10 @@ import {
 export const translationSlice = createSlice({
 	name: 'translation',
 	initialState: {
-	translations: [],
-	allTranslations: [],
-	loading: false,
-	error: ''
+	translations: [],									// 10 active translations by user ID ordered descending
+	allTranslations: [],							// All active translations by user ID
+	loading: false,               		// Status indicator for http requests
+	error: ''                   		  // Error state for http requests
 	},
 	reducers: {
 		/**

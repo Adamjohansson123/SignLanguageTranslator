@@ -4,9 +4,18 @@ import { connect } from 'react-redux';
 import { userToState, fetchUserByName } from '../redux/User/userSlice';
 import { addNewTranslation } from '../redux/Translations/translationSlice';
 
-const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userToState, addNewTranslation }) => {
+const TranslationPage = (props) => {
+
+	const { 
+		activeUser, 
+		userByNameResult, 
+		fetchUserByName, 
+		userToState, 
+		addNewTranslation } = props
 
 	const history = useHistory()
+	const [translationInput, setTranslationInput] = useState('')
+	const [imageArray, setImageArray] = useState(null)
 
 	useEffect(() => {
 
@@ -17,24 +26,29 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 		 * by sending the username from the localStorage to the fetchUserByName method. 
 		 */
 		const checkActiveUser = async () => {
-			if (!localStorage.getItem('user')) {
-				history.push('/');
+			const storedUser = localStorage.getItem('user')
+			if (!storedUser) {
+				history.push('/')
 			}
-
-			if (userByNameResult) {
-				console.log("userByNameResult")
-				console.log(userByNameResult)
-				await userToState(userByNameResult[0])
+			if (userByNameResult && userByNameResult.length > 0) {
+				await userToState(userByNameResult.find(e => e.name === storedUser))
 			}
 			else
-				await fetchUserByName(localStorage.getItem('user'))
-
+				await fetchUserByName(storedUser)
 		}
 		checkActiveUser()
 	}, [userByNameResult])
 
-	const [translationInput, setTranslationInput] = useState('')
-	const [imageArray, setImageArray] = useState(null)
+	/**
+	 * Separate hook that fetches a full user object using the name stored in the localstorage,
+	 * updates the fetched user since last logged in session.
+	 */
+	useEffect(() => {
+		const refreshUser = async () => {
+			await fetchUserByName(localStorage.getItem('user'))
+		}
+		refreshUser()
+	}, [])
 
 	const onChange = (e) => {
 		setTranslationInput(e.target.value)
@@ -55,9 +69,14 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 				alert('Invalid input - translation input can only contain letters')
 			}
 			else {
-				localStorage.setItem('translation', translationInput)
-				const data = { translation: translationInput, status: "active", FK_userId: activeUser.id };
+				const data = { 
+					translation: translationInput, 
+					status: "active", 
+					FK_userId: activeUser.id 
+				};
+
 				addNewTranslation(data)
+				localStorage.setItem('translation', translationInput)
 				setImageArray(translationInput.replace(/[^a-zA-Z]/g, '').toLowerCase().split('').map(e => `../img/${e}.png`))
 			}
 		}
@@ -79,7 +98,6 @@ const TranslationPage = ({ activeUser, userByNameResult, fetchUserByName, userTo
 					placeholder="Text to translate..."
 					name="translation"
 					onChange={onChange}
-
 				/>
 			</div>
 			<div>

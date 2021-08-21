@@ -4,19 +4,19 @@ import { getAllUsers, getUserByName, addUser } from '../../services/user';
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    activeUser: null,
-    users: [],
-    newUser: null,
-    userByNameResult: null,
-    loading: false,
-    error: ''
+    activeUser: null,             // Currently active user
+    users: [],                    // All users from DB to better filter out a user
+    newUser: null,                // State for recieving the returned object after creating a new user
+    userByNameResult: null,       // State for recieving result of querying a user by name
+    loading: false,               // Status indicator for http requests
+    error: ''                     // Error state for http requests
   },
   reducers: {
     	/**
 		 * Reducers where each thunk has it's own three status setters, with pattern -
 		 * (reducer name) started/success/failed for keeping better track of requests
 		 */
-    userToState: (state, action) => {
+    userToState: (state, action) => { // Not a http request
       state.activeUser = action.payload;
     },
     getAllUsersStarted: (state) => {
@@ -69,8 +69,7 @@ export const {
   getUserByNameFailed,
   addNewUserStarted,
   addNewUserSuccess,
-  addNewUserFailed,
-  resetState
+  addNewUserFailed
 } = userSlice.actions;
 
 /**

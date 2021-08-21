@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { userToState, fetchUserByName, resetState } from '../redux/User/userSlice';
+import { userToState, fetchUserByName } from '../redux/User/userSlice';
 import { fetchTranslationById, updateTranslation, fetchAllTranslations } from '../redux/Translations/translationSlice';
 import { connect } from 'react-redux';
 
@@ -35,9 +35,8 @@ const ProfilePage = (props) => {
 			}
 			else if(!activeUser) {
 				await fetchUserByName(localStorage.getItem('user')) 
-				
 				if(userByNameResult)
-				await userToState(userByNameResult[0])
+					await userToState(userByNameResult[0])
 			}
 			if (activeUser) {
 				fetchTranslationById(activeUser.id)
@@ -47,8 +46,6 @@ const ProfilePage = (props) => {
 		checkActiveUser()
 
 	}, [userByNameResult, activeUser])
-
-
 	/**
 	 * Method that sets all translations for the current user to 'deleted'. 
 	 */
@@ -98,11 +95,13 @@ const ProfilePage = (props) => {
 					{
 						translations && translations.map((t, i) => {
 							if (t.status === 'active')
-								return <tbody key={t.id}>
-									<tr>
-										<td>{t.translation}</td>
-									</tr>
-								</tbody>
+								return (
+									<tbody key={t.id}>
+										<tr>
+											<td>{t.translation}</td>
+										</tr>
+									</tbody>
+								)
 							else
 								return <tbody key={'empty '+i}/>
 						})
@@ -122,8 +121,7 @@ const mapDispatchToProps = (dispatch) => {
 		fetchUserByName: (name) => dispatch(fetchUserByName(name)),
 		fetchTranslationById: (userId) => dispatch(fetchTranslationById(userId)),
 		fetchAllTranslations: (userId) => dispatch(fetchAllTranslations(userId)),
-		updateTranslation: (translation) => dispatch(updateTranslation(translation)),
-		resetState: () => dispatch(resetState()),
+		updateTranslation: (translation) => dispatch(updateTranslation(translation))
 	}
 }
 
